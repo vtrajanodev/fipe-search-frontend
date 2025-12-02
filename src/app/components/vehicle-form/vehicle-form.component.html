@@ -7,6 +7,12 @@
 
       <div class="form-fields">
         <div class="field">
+          <label for="vehicleType">Tipo de veículo</label>
+          <p-dropdown id="vehicleType" formControlName="vehicleType" [options]="vehicleTypeOptions" optionLabel="name"
+            optionValue="code" placeholder="Escolha o ano do seu veículo"></p-dropdown>
+        </div>
+
+        <div class="field">
           <label for="brand">Marca</label>
           <p-dropdown id="brand" formControlName="brandId" [options]="brands" optionLabel="name" optionValue="code"
             placeholder="Escolha a marca do seu veículo">
@@ -18,18 +24,13 @@
           <p-dropdown id="model" formControlName="modelId" [options]="models" optionLabel="name" optionValue="code"
             placeholder="Escolha a marca do seu veículo"></p-dropdown>
         </div>
-
-        <div class="field">
-          <label for="model">Ano</label>
-          <p-dropdown id="model" formControlName="yearId" [options]="years" optionLabel="name" optionValue="code"
-            placeholder="Escolha o ano do seu veículo"></p-dropdown>
-        </div>
       </div>
 
       <ng-template pTemplate="footer">
-        <div class="">
-          <p-button label="Cancel" severity="secondary" class="w-full" styleClass="w-full"> </p-button>
-          <p-button label="Save" class="w-full" styleClass="w-full" type="submit"> </p-button>
+        <div class="footer">
+          <p-button label="Limpar" styleClass="clear-form"> </p-button>
+          <p-button label="Pesquisar" class="w-full" styleClass="w-full" type="submit" styleClass="submit-form">
+          </p-button>
         </div>
       </ng-template>
     </p-card>

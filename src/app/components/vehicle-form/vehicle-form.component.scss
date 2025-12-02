@@ -21,3 +21,28 @@
 .field ::ng-deep input.p-inputtext {
   width: 100% !important;
 }
+
+.footer {
+  display: flex;
+  justify-content: flex-start;
+  gap: 12px;
+
+  ::ng-deep .clear-form {
+    border: 1px solid #f72717;
+    background-color: #fff;
+    color: #f72717;
+  }
+
+  ::ng-deep .submit-form {
+    border: 1px solid #f72717;
+    background-color: #f72717;
+    color: #fff;
+    transition: all 0.3s ease;
+  }
+
+  ::ng-deep .submit-form:hover {
+    background-color: #000;
+    color: #fff;
+    border-color: #000;
+  }
+}

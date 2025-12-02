@@ -6,9 +6,9 @@ export interface VehicleResponse {
 }
 
 export interface VehicleRequestForm {
+  vehicleType: FormControl<string | null>;
   brandId: FormControl<string | null>;
   modelId: FormControl<string | null>;
-  yearId: FormControl<string | null>;
 }
 
 export interface FipeInformationResponse {

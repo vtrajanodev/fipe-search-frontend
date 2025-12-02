@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { combineLatest, filter, map, Observable, of, switchMap, tap } from 'rxjs';
+import { combineLatest, filter, map, Observable, switchMap } from 'rxjs';
 import { FipeService } from 'src/app/services/fipe.service';
 import { VehicleRequestForm, VehicleResponse } from 'src/app/types/vehicle';
 
@@ -14,6 +14,11 @@ export class VehicleFormComponent implements OnInit {
   public models: VehicleResponse[];
   public years: VehicleResponse[];
   public formGroup: FormGroup<VehicleRequestForm>;
+  public readonly vehicleTypeOptions = [
+    { code: 'cars', name: 'Carros e utilitários pequenos' },
+    { code: 'motorcycles', name: 'Motos' },
+    { code: 'trucks', name: 'Caminhões e microônibus' },
+  ];
 
   constructor(private fipeService: FipeService) {}
 
@@ -22,6 +27,8 @@ export class VehicleFormComponent implements OnInit {
     this.listBrands();
     this.watchBrandChanges();
     this.watchedModelChanges();
+
+    console.log(this.vehicleTypeOptions);
   }
 
   listBrands(): void {
@@ -61,9 +68,9 @@ export class VehicleFormComponent implements OnInit {
   }
   formBuilder() {
     this.formGroup = new FormGroup<VehicleRequestForm>({
+      vehicleType: new FormControl<string | null>(null, [Validators.required]),
       brandId: new FormControl<string | null>(null, [Validators.required]),
       modelId: new FormControl<string | null>(null, [Validators.required]),
-      yearId: new FormControl<string | null>(null, [Validators.required]),
     });
   }
 
