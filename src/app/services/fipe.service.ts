@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { VehicleResponse } from '../types/vehicle';
+import { VehiclePriceHistory, VehicleResponse } from '../types/vehicle';
+import { VehicleTypeEnum } from '../types/vehicle-type.enum';
 
 @Injectable({
   providedIn: 'root',
@@ -11,14 +12,14 @@ export class FipeService {
 
   constructor(private httpClient: HttpClient) {}
 
-  listBrands(vehicleType: string): Observable<VehicleResponse[]> {
+  listBrands(vehicleType: VehicleTypeEnum): Observable<VehicleResponse[]> {
     return this.httpClient.get<VehicleResponse[]>(
       `${this.baseUrl}/${vehicleType}/brands`
     );
   }
 
   listModels(
-    vehicleType: string,
+    vehicleType: VehicleTypeEnum,
     brandId: string
   ): Observable<VehicleResponse[]> {
     return this.httpClient.get<VehicleResponse[]>(
@@ -26,13 +27,13 @@ export class FipeService {
     );
   }
 
-  listYearsByBrandAndModel(
-    vehicleType: string,
+  getVehicleHistory(
+    vehicleType: VehicleTypeEnum,
     brandId: string,
     modelId: string
-  ): Observable<VehicleResponse[]> {
-    return this.httpClient.get<VehicleResponse[]>(
-      `${this.baseUrl}/${vehicleType}/brands/${brandId}/models/${modelId}/years`
+  ): Observable<VehiclePriceHistory[]> {
+    return this.httpClient.get<VehiclePriceHistory[]>(
+      `${this.baseUrl}/${vehicleType}/brands/${brandId}/models/${modelId}/history`
     );
   }
 }

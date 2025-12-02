@@ -1,4 +1,5 @@
 import { FormControl } from '@angular/forms';
+import { VehicleTypeEnum } from './vehicle-type.enum';
 
 export interface VehicleResponse {
   code: string;
@@ -6,26 +7,14 @@ export interface VehicleResponse {
 }
 
 export interface VehicleRequestForm {
-  vehicleType: FormControl<string | null>;
+  vehicleType: FormControl<VehicleTypeEnum | null>;
   brandId: FormControl<string | null>;
   modelId: FormControl<string | null>;
 }
 
-export interface FipeInformationResponse {
-  brand: string;
-  codeFipe: string;
-  fuel: string;
-  fuelAcronym: string;
-  model: string;
-  modelYear: number;
-  price: string;
-  priceHistory: VehiclePriceHistory[];
-  referenceMonth: string;
-  vehicleType: number;
-}
-
 export interface VehiclePriceHistory {
-  month: string;
+  year: string;
   price: string;
-  reference: string;
+  diff?: number;
+  diffPercentage?: number;
 }

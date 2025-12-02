@@ -1,8 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { switchMap, filter, map } from 'rxjs/operators';
+import { filter, switchMap } from 'rxjs/operators';
 import { FipeService } from 'src/app/services/fipe.service';
-import { VehicleRequestForm, VehicleResponse } from 'src/app/types/vehicle';
+import {
+  VehicleRequestForm,
+  VehicleResponse,
+  VehiclePriceHistory,
+} from 'src/app/types/vehicle';
+import { VehicleTypeEnum } from 'src/app/types/vehicle-type.enum';
 
 @Component({
   selector: 'app-vehicle-form',
@@ -12,12 +17,13 @@ import { VehicleRequestForm, VehicleResponse } from 'src/app/types/vehicle';
 export class VehicleFormComponent implements OnInit {
   public brands: VehicleResponse[] = [];
   public models: VehicleResponse[] = [];
-  public years: VehicleResponse[] = [];
+  public vehiclePriceHistory: VehiclePriceHistory[] = [];
   public formGroup: FormGroup<VehicleRequestForm>;
+
   public readonly vehicleTypeOptions = [
-    { code: 'cars', name: 'Carros e utilitários pequenos' },
-    { code: 'motorcycles', name: 'Motos' },
-    { code: 'trucks', name: 'Caminhões e microônibus' },
+    { code: VehicleTypeEnum.CARS, name: 'Carros e utilitários pequenos' },
+    { code: VehicleTypeEnum.MOTORCYCLES, name: 'Motos' },
+    { code: VehicleTypeEnum.TRUCKS, name: 'Caminhões e microônibus' },
   ];
 
   constructor(private fipeService: FipeService) {}
@@ -31,7 +37,10 @@ export class VehicleFormComponent implements OnInit {
 
   private initializeForm(): void {
     this.formGroup = new FormGroup<VehicleRequestForm>({
-      vehicleType: new FormControl<string | null>(null, Validators.required),
+      vehicleType: new FormControl<VehicleTypeEnum | null>(
+        null,
+        Validators.required
+      ),
       brandId: new FormControl<string | null>(
         { value: null, disabled: true },
         Validators.required
@@ -46,17 +55,19 @@ export class VehicleFormComponent implements OnInit {
   private handleVehicleTypeChanges(): void {
     this.formGroup.controls.vehicleType.valueChanges
       .pipe(
-        filter((vehicleType): vehicleType is string => vehicleType !== null)
+        filter(
+          (vehicleType): vehicleType is VehicleTypeEnum => vehicleType !== null
+        )
       )
       .subscribe((vehicleType) => {
         this.formGroup.controls.brandId.reset({ value: null, disabled: false });
         this.formGroup.controls.modelId.reset({ value: null, disabled: true });
         this.models = [];
-        this.years = [];
+        this.vehiclePriceHistory = [];
 
-        this.fipeService
-          .listBrands(vehicleType)
-          .subscribe((brands) => (this.brands = brands));
+        this.fipeService.listBrands(vehicleType).subscribe((brands) => {
+          this.brands = brands;
+        });
       });
   }
 
@@ -65,14 +76,16 @@ export class VehicleFormComponent implements OnInit {
       .pipe(filter((brandId): brandId is string => brandId !== null))
       .subscribe((brandId) => {
         this.formGroup.controls.modelId.reset({ value: null, disabled: false });
-        this.years = [];
+        this.vehiclePriceHistory = [];
 
         const vehicleType = this.formGroup.controls.vehicleType.value;
-        if (vehicleType) {
-          this.fipeService
-            .listModels(vehicleType, brandId)
-            .subscribe((models) => (this.models = models));
-        }
+        if (!vehicleType) return;
+
+        this.fipeService
+          .listModels(vehicleType, brandId)
+          .subscribe((models) => {
+            this.models = models;
+          });
       });
   }
 
@@ -82,18 +95,24 @@ export class VehicleFormComponent implements OnInit {
       .subscribe((modelId) => {
         const vehicleType = this.formGroup.controls.vehicleType.value;
         const brandId = this.formGroup.controls.brandId.value;
+        if (!vehicleType || !brandId) return;
 
-        if (vehicleType && brandId) {
-          this.fipeService
-            .listYearsByBrandAndModel(vehicleType, brandId, modelId)
-            .subscribe((years) => (this.years = years ?? []));
-        }
+        this.fipeService
+          .getVehicleHistory(vehicleType, brandId, modelId)
+          .subscribe((years) => {
+            this.vehiclePriceHistory = years ?? [];
+          });
       });
   }
 
   public submitForm(): void {
     if (this.formGroup.valid) {
-      console.log('Form submitted!', this.formGroup.value);
+      const { vehicleType, brandId, modelId } = this.formGroup.getRawValue();
+      this.fipeService
+        .getVehicleHistory(vehicleType!, brandId!, modelId!)
+        .subscribe((history) => {
+          console.log('Vehicle history:', history);
+        });
     } else {
       this.formGroup.markAllAsTouched();
     }
