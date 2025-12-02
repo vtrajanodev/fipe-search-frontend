@@ -50,4 +50,10 @@
       </p-card>
     </ng-container>
   </form>
+
+  <ng-container *ngIf="vehiclePriceHistory$ | async as vehicleHistory;">
+    <ng-container *ngFor="let history of vehicleHistory">
+      <app-vehicle-history [vehicleHistory]="history"></app-vehicle-history>
+    </ng-container>
+  </ng-container>
 </main>

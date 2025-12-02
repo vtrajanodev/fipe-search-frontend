@@ -17,4 +17,6 @@ export interface VehiclePriceHistory {
   price: string;
   diff?: number;
   diffPercentage?: number;
+  previousYear?: string;
+  previousPrice?: string;
 }

@@ -12,8 +12,11 @@ import { InputTextModule } from 'primeng/inputtext';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { VehicleHistoryComponent } from './components/vehicle-history/vehicle-history.component';
+import { PanelModule } from 'primeng/panel';
+
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, VehicleHistoryComponent],
   imports: [
     CommonModule,
     BrowserModule,
@@ -27,6 +30,7 @@ import { AppComponent } from './app.component';
     DropdownModule,
     InputTextModule,
     BrowserAnimationsModule,
+    PanelModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

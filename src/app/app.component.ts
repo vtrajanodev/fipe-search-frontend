@@ -1,9 +1,13 @@
-import { Component } from "@angular/core";
-import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { filter } from "rxjs";
-import { FipeService } from "./services/fipe.service";
-import { VehicleResponse, VehiclePriceHistory, VehicleRequestForm } from "./types/vehicle";
-import { VehicleTypeEnum } from "./types/vehicle-type.enum";
+import { Component } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { filter, finalize, Observable } from 'rxjs';
+import { FipeService } from './services/fipe.service';
+import {
+  VehicleResponse,
+  VehiclePriceHistory,
+  VehicleRequestForm,
+} from './types/vehicle';
+import { VehicleTypeEnum } from './types/vehicle-type.enum';
 
 @Component({
   selector: 'app-root',
@@ -15,6 +19,8 @@ export class AppComponent {
   public models: VehicleResponse[] = [];
   public vehiclePriceHistory: VehiclePriceHistory[] = [];
   public formGroup: FormGroup<VehicleRequestForm>;
+  public vehiclePriceHistory$: Observable<VehiclePriceHistory[]>;
+  public loading = false;
 
   public readonly vehicleTypeOptions = [
     { code: VehicleTypeEnum.CARS, name: 'Carros e utilitários pequenos' },
@@ -32,11 +38,19 @@ export class AppComponent {
   }
 
   public submitForm(): void {
-    if (this.formGroup.valid) {
-      const { vehicleType, brandId, modelId } = this.formGroup.getRawValue();
-    } else {
+    const formValues = this.getFormValues();
+
+    if (!formValues) {
       this.formGroup.markAllAsTouched();
+      return;
     }
+
+    const { vehicleType, brandId, modelId } = formValues;
+
+    this.loading = true;
+    this.vehiclePriceHistory$ = this.fipeService
+      .getVehicleHistory(vehicleType, brandId, modelId)
+      .pipe(finalize(() => (this.loading = false)));
   }
 
   public clearForm(): void {
@@ -111,5 +125,17 @@ export class AppComponent {
             this.vehiclePriceHistory = years ?? [];
           });
       });
+  }
+
+  private getFormValues(): {
+    vehicleType: VehicleTypeEnum;
+    brandId: string;
+    modelId: string;
+  } | null {
+    const { vehicleType, brandId, modelId } = this.formGroup.getRawValue();
+    if (vehicleType && brandId && modelId) {
+      return { vehicleType, brandId, modelId };
+    }
+    return null;
   }
 }
