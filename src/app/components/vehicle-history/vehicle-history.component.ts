@@ -14,8 +14,6 @@ export class VehicleHistoryComponent implements OnInit {
   ngOnInit(): void {}
 
   get historyDescription(): string {
-    console.log(this.vehicleHistory);
-
     if (!this.vehicleHistory) {
       return '';
     }
