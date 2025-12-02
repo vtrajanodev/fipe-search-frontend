@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { filter, finalize, Observable } from 'rxjs';
+import { filter, finalize, Observable, of } from 'rxjs';
 import { FipeService } from './services/fipe.service';
 import {
   VehicleResponse,
@@ -55,6 +55,7 @@ export class AppComponent {
 
   public clearForm(): void {
     this.formGroup.reset();
+    this.vehiclePriceHistory$ = of([])
   }
 
   private initializeForm(): void {
