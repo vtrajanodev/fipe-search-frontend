@@ -3,12 +3,21 @@
 }
 
 .form-fields {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  gap: 64px;
+  justify-content: space-between;
+  flex-wrap: wrap;
 }
 
 .field {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
+}
+
+.field ::ng-deep .p-dropdown,
+.field ::ng-deep input.p-inputtext {
+  width: 100% !important;
 }

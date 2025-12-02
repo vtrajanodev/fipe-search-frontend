@@ -20,7 +20,7 @@ export class VehicleFormComponent implements OnInit {
     this.formGroup = new FormGroup<VehicleRequestForm>({
       brand: new FormControl<string | null>(null),
       model: new FormControl<string | null>(null),
-      year: new FormControl<string | null>(null),
+      yearCode: new FormControl<string | null>(null),
     });
   }
 }
