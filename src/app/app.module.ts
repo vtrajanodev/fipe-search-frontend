@@ -10,11 +10,16 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { VehicleFormComponent } from './components/vehicle-form/vehicle-form.component';
+import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 @NgModule({
   declarations: [AppComponent, VehicleFormComponent],
   imports: [
+    CommonModule,
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
     ButtonModule,
     CardModule,
     ReactiveFormsModule,
@@ -22,6 +27,7 @@ import { VehicleFormComponent } from './components/vehicle-form/vehicle-form.com
     MultiSelectModule,
     DropdownModule,
     InputTextModule,
+    BrowserAnimationsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
