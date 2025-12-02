@@ -1,0 +1,44 @@
+header {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+
+  height: 60px;
+  width: 100%;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 0 1.4rem;
+  margin-bottom: 1.4rem;
+
+  h1 {
+    font-size: 1.2rem;
+  }
+
+  span {
+    font-size: 0.9rem;
+    color: #ff220f;
+  }
+}
+
+main {
+  display: block;
+  margin: 0 auto;
+  width: 1200px;
+    margin-top: 64px;
+
+  .titles {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    justify-content: flex-start;
+    margin-bottom: 1.5rem;
+
+    h2 {
+      color: #222222;
+      font-size: 2rem;
+    }
+    p {
+      color: #555555;
+    }
+  }
+}
