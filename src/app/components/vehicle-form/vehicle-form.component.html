@@ -1,5 +1,5 @@
-<form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
-  <ng-container *ngIf="brands$ | async as brands; else loading">
+<form [formGroup]="formGroup" (ngSubmit)="submitForm()">
+  <ng-container>
     <p-card header="Preencha os dados abaixo"
       subheader="Selecione a marca, modelo e ano para consultar um veículo na tabela FIPE"
       styleClass="vehicle-form-card">

@@ -7,28 +7,32 @@ import { VehicleResponse } from '../types/vehicle';
   providedIn: 'root',
 })
 export class FipeService {
-  private readonly baseUrl = 'http://localhost:8080/fipe/cars';
+  private readonly baseUrl = 'http://localhost:8080/fipe';
 
   constructor(private httpClient: HttpClient) {}
 
-  listBrands(): Observable<VehicleResponse[]> {
-    return this.httpClient.get<VehicleResponse[]>(`${this.baseUrl}/brands`);
+  listBrands(vehicleType: string): Observable<VehicleResponse[]> {
+    return this.httpClient.get<VehicleResponse[]>(
+      `${this.baseUrl}/${vehicleType}/brands`
+    );
   }
 
-  listModels(brandId: string): Observable<VehicleResponse[]> {
+  listModels(
+    vehicleType: string,
+    brandId: string
+  ): Observable<VehicleResponse[]> {
     return this.httpClient.get<VehicleResponse[]>(
-      `${this.baseUrl}/brands/${brandId}/models`
+      `${this.baseUrl}/${vehicleType}/brands/${brandId}/models`
     );
   }
 
   listYearsByBrandAndModel(
+    vehicleType: string,
     brandId: string,
     modelId: string
   ): Observable<VehicleResponse[]> {
     return this.httpClient.get<VehicleResponse[]>(
-      `${this.baseUrl}/brands/${brandId}/models/${modelId}/years`
+      `${this.baseUrl}/${vehicleType}/brands/${brandId}/models/${modelId}/years`
     );
   }
-
-  // listPricesByB
 }
