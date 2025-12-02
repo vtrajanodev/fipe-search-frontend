@@ -1,0 +1,14 @@
+::ng-deep .vehicle-form-card .p-card-content {
+  padding: 0;
+}
+
+.form-fields {
+    display: flex;
+    justify-content: space-between;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}

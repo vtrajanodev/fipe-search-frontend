@@ -1,0 +1,32 @@
+<form [formGroup]="formGroup">
+  <p-card header="Preencha os dados abaixo"
+    subheader="Selecione a marca, modelo e ano para consultar um veículo na tabela FIPE" styleClass="vehicle-form-card">
+    <p-divider></p-divider>
+
+    <div class="form-fields">
+      <div class="field">
+        <label for="brand">Marca</label>
+        <p-dropdown id="brand" formControlName="brand" [options]="[]" optionLabel="Teste" placeholder="Select a City">
+        </p-dropdown>
+      </div>
+
+      <div class="field">
+        <label for="model">Modelo</label>
+        <p-dropdown id="model" formControlName="model" [options]="[]" optionLabel="name" placeholder="Select a City"></p-dropdown>
+      </div>
+
+
+      <div class="field">
+        <label for="yearCode">Ano</label>
+        <input pInputText id="yearCode" formControlName="yearCode">
+      </div>
+    </div>
+
+    <ng-template pTemplate="footer">
+      <div class="">
+        <p-button label="Cancel" severity="secondary" class="w-full" styleClass="w-full"> </p-button>
+        <p-button label="Save" class="w-full" styleClass="w-full"> </p-button>
+      </div>
+    </ng-template>
+  </p-card>
+</form>
