@@ -8,7 +8,6 @@ import { VehicleTypeEnum } from '../types/vehicle-type.enum';
   providedIn: 'root',
 })
 export class FipeService {
-  // private readonly baseUrl = 'http://localhost:8080/fipe';
   private readonly baseUrl =
     'https://fipe-search-backend-production.up.railway.app/fipe';
 
