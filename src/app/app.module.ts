@@ -10,11 +10,11 @@ import { DividerModule } from 'primeng/divider';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
 import { MultiSelectModule } from 'primeng/multiselect';
+import { PanelModule } from 'primeng/panel';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { VehicleHistoryComponent } from './components/vehicle-history/vehicle-history.component';
-import { PanelModule } from 'primeng/panel';
-import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 @NgModule({
   declarations: [AppComponent, VehicleHistoryComponent],
@@ -32,7 +32,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     InputTextModule,
     BrowserAnimationsModule,
     PanelModule,
-    ProgressSpinnerModule
+    ProgressSpinnerModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
