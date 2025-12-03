@@ -14,6 +14,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { VehicleHistoryComponent } from './components/vehicle-history/vehicle-history.component';
 import { PanelModule } from 'primeng/panel';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 @NgModule({
   declarations: [AppComponent, VehicleHistoryComponent],
@@ -31,6 +32,7 @@ import { PanelModule } from 'primeng/panel';
     InputTextModule,
     BrowserAnimationsModule,
     PanelModule,
+    ProgressSpinnerModule
   ],
   providers: [],
   bootstrap: [AppComponent],

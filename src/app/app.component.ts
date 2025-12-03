@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { filter, finalize, Observable, of } from 'rxjs';
+import { finalize, Observable, of } from 'rxjs';
 import { FipeService } from './services/fipe.service';
 import {
   VehicleResponse,
@@ -17,9 +17,8 @@ import { VehicleTypeEnum } from './types/vehicle-type.enum';
 export class AppComponent {
   public brands: VehicleResponse[] = [];
   public models: VehicleResponse[] = [];
-  public vehiclePriceHistory: VehiclePriceHistory[] = [];
+  public vehiclePriceHistory$: Observable<VehiclePriceHistory[]> = of([]);
   public formGroup: FormGroup<VehicleRequestForm>;
-  public vehiclePriceHistory$: Observable<VehiclePriceHistory[]>;
   public loading = false;
 
   public readonly vehicleTypeOptions = [
@@ -34,12 +33,10 @@ export class AppComponent {
     this.initializeForm();
     this.handleVehicleTypeChanges();
     this.handleBrandChanges();
-    this.handleModelChanges();
   }
 
   public submitForm(): void {
     const formValues = this.getFormValues();
-
     if (!formValues) {
       this.formGroup.markAllAsTouched();
       return;
@@ -55,7 +52,9 @@ export class AppComponent {
 
   public clearForm(): void {
     this.formGroup.reset();
-    this.vehiclePriceHistory$ = of([])
+    this.vehiclePriceHistory$ = of([]);
+    this.models = [];
+    this.brands = [];
   }
 
   private initializeForm(): void {
@@ -76,56 +75,34 @@ export class AppComponent {
   }
 
   private handleVehicleTypeChanges(): void {
-    this.formGroup.controls.vehicleType.valueChanges
-      .pipe(
-        filter(
-          (vehicleType): vehicleType is VehicleTypeEnum => vehicleType !== null
-        )
-      )
-      .subscribe((vehicleType) => {
+    this.formGroup.controls.vehicleType.valueChanges.subscribe(
+      (vehicleType) => {
         this.formGroup.controls.brandId.reset({ value: null, disabled: false });
         this.formGroup.controls.modelId.reset({ value: null, disabled: true });
         this.models = [];
-        this.vehiclePriceHistory = [];
+        this.brands = [];
+
+        if (!vehicleType) return;
 
         this.fipeService.listBrands(vehicleType).subscribe((brands) => {
           this.brands = brands;
         });
-      });
+      }
+    );
   }
 
   private handleBrandChanges(): void {
-    this.formGroup.controls.brandId.valueChanges
-      .pipe(filter((brandId): brandId is string => brandId !== null))
-      .subscribe((brandId) => {
-        this.formGroup.controls.modelId.reset({ value: null, disabled: false });
-        this.vehiclePriceHistory = [];
+    this.formGroup.controls.brandId.valueChanges.subscribe((brandId) => {
+      this.formGroup.controls.modelId.reset({ value: null, disabled: false });
+      this.models = [];
 
-        const vehicleType = this.formGroup.controls.vehicleType.value;
-        if (!vehicleType) return;
+      const vehicleType = this.formGroup.controls.vehicleType.value;
+      if (!vehicleType || !brandId) return;
 
-        this.fipeService
-          .listModels(vehicleType, brandId)
-          .subscribe((models) => {
-            this.models = models;
-          });
+      this.fipeService.listModels(vehicleType, brandId).subscribe((models) => {
+        this.models = models;
       });
-  }
-
-  private handleModelChanges(): void {
-    this.formGroup.controls.modelId.valueChanges
-      .pipe(filter((modelId): modelId is string => modelId !== null))
-      .subscribe((modelId) => {
-        const vehicleType = this.formGroup.controls.vehicleType.value;
-        const brandId = this.formGroup.controls.brandId.value;
-        if (!vehicleType || !brandId) return;
-
-        this.fipeService
-          .getVehicleHistory(vehicleType, brandId, modelId)
-          .subscribe((years) => {
-            this.vehiclePriceHistory = years ?? [];
-          });
-      });
+    });
   }
 
   private getFormValues(): {
