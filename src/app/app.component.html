@@ -25,14 +25,14 @@
 
         <div class="field">
           <label for="brand">Marca</label>
-          <p-dropdown id="brand" formControlName="brandId" [options]="brands" optionLabel="name" optionValue="code"
+          <p-dropdown id="brand" formControlName="brandId" [filter]="true" filterBy="name" [options]="brands" optionLabel="name" optionValue="code"
             placeholder="Escolha a marca do seu veículo">
           </p-dropdown>
         </div>
 
         <div class="field">
           <label for="model">Modelo</label>
-          <p-dropdown id="model" formControlName="modelId" [options]="models" optionLabel="name" optionValue="code"
+          <p-dropdown id="model" formControlName="modelId" [options]="models" [filter]="true" filterBy="name" optionLabel="name" optionValue="code"
             placeholder="Escolha o modelo do seu veículo">
           </p-dropdown>
         </div>
@@ -41,18 +41,24 @@
       <ng-template pTemplate="footer">
         <div class="footer">
           <p-button (onClick)="clearForm()" label="Limpar" styleClass="clear-form"></p-button>
-          <p-button label="Pesquisar" type="submit" [disabled]="!formGroup.valid" styleClass="submit-form"></p-button>
+          <p-button label="Pesquisar" type="submit" [disabled]="!formGroup.valid || loadingBrands || loadingModels"
+            styleClass="submit-form">
+          </p-button>
+
         </div>
       </ng-template>
     </p-card>
   </form>
 
-  <div *ngIf="loading" class="loading-overlay">
-    <p-progressSpinner></p-progressSpinner>
-    <span>Carregando histórico...</span>
-  </div>
 
-  <ng-container *ngIf="vehiclePriceHistory$ | async as vehicleHistory">
+  <ng-template #loading>
+    <div class="loading-overlay">
+      <p-progressSpinner></p-progressSpinner>
+      <span>Carregando histórico...</span>
+    </div>
+  </ng-template>
+
+  <ng-container *ngIf="vehiclePriceHistory$ | async as vehicleHistory; else loading">
     <ng-container *ngFor="let history of vehicleHistory">
       <app-vehicle-history [vehicleHistory]="history"></app-vehicle-history>
     </ng-container>

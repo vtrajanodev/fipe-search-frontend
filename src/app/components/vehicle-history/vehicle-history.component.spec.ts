@@ -62,7 +62,7 @@ describe('VehicleHistoryComponent', () => {
 
     const description = component.historyDescription;
     expect(description).toBe(
-      'Valor em 2020 -> R$ 44.689,00, alteração de R$ 3.367,00 (8,15%) em relação a 2019'
+      'Valor em 2020 -> R$ 44.689,00, alteração de R$ 3.367,00 (8,15%) em relação ao ano de 2019'
     );
   });
 });

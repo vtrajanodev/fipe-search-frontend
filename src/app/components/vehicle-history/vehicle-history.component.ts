@@ -28,7 +28,7 @@ export class VehicleHistoryComponent implements OnInit {
     let description = `Valor em ${year} -> ${price}`;
 
     if (diff && diffPercentage && previousYear) {
-      description += `, alteração de ${diff} (${diffPercentage}) em relação a ${previousYear}`;
+      description += `, alteração de ${diff} (${diffPercentage}) em relação ao ano de ${previousYear}`;
     }
 
     return description;

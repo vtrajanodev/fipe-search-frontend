@@ -20,7 +20,9 @@ export class AppComponent {
   public models: VehicleResponse[] = [];
   public vehiclePriceHistory$: Observable<VehiclePriceHistory[]> = of([]);
   public formGroup: FormGroup<VehicleRequestForm>;
-  public loading = false;
+  public loadingHistory = false;
+  public loadingBrands = false;
+  public loadingModels = false;
 
   public readonly vehicleTypeOptions = [
     { code: VehicleTypeEnum.CARS, name: 'Carros e utilitários pequenos' },
@@ -45,10 +47,10 @@ export class AppComponent {
 
     const { vehicleType, brandId, modelId } = formValues;
 
-    this.loading = true;
+    this.loadingHistory = true;
     this.vehiclePriceHistory$ = this.fipeService
       .getVehicleHistory(vehicleType, brandId, modelId)
-      .pipe(finalize(() => (this.loading = false)));
+      .pipe(finalize(() => (this.loadingHistory = false)));
   }
 
   public clearForm(): void {
@@ -78,15 +80,20 @@ export class AppComponent {
   private handleVehicleTypeChanges(): void {
     this.formGroup.controls.vehicleType.valueChanges.subscribe(
       (vehicleType) => {
-        this.formGroup.controls.brandId.reset({ value: null, disabled: false });
-        this.formGroup.controls.modelId.reset({ value: null, disabled: true });
         this.models = [];
         this.brands = [];
 
+        this.formGroup.controls.brandId.reset({ value: null, disabled: true });
+        this.formGroup.controls.modelId.reset({ value: null, disabled: true });
+
         if (!vehicleType) return;
+
+        this.loadingBrands = true;
 
         this.fipeService.listBrands(vehicleType).subscribe((brands) => {
           this.brands = brands;
+          this.formGroup.controls.brandId.enable();
+          this.loadingBrands = false;
         });
       }
     );
@@ -94,14 +101,18 @@ export class AppComponent {
 
   private handleBrandChanges(): void {
     this.formGroup.controls.brandId.valueChanges.subscribe((brandId) => {
-      this.formGroup.controls.modelId.reset({ value: null, disabled: false });
       this.models = [];
+      this.formGroup.controls.modelId.reset({ value: null, disabled: true });
 
       const vehicleType = this.formGroup.controls.vehicleType.value;
       if (!vehicleType || !brandId) return;
 
+      this.loadingModels = true;
+
       this.fipeService.listModels(vehicleType, brandId).subscribe((models) => {
         this.models = models;
+        this.formGroup.controls.modelId.enable();
+        this.loadingModels = false;
       });
     });
   }

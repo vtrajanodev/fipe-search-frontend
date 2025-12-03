@@ -110,7 +110,7 @@ describe('AppComponent', () => {
       expect(data).toEqual(historyMock);
     });
 
-    expect(component.loading).toBeFalse();
+    expect(component.loadingHistory).toBeFalse();
   }));
 
   it('should mark all controls as touched if form is invalid on submit', () => {
@@ -138,13 +138,15 @@ describe('AppComponent', () => {
 
     component.clearForm();
 
-    expect(component.formGroup.value.vehicleType).toBeNull();
-    expect(component.formGroup.value.brandId).toBeNull();
-    expect(component.formGroup.value.modelId).toBeNull();
+    const formValues = component.formGroup.getRawValue();
+    expect(formValues.vehicleType).toBeNull();
+    expect(formValues.brandId).toBeNull();
+    expect(formValues.modelId).toBeNull();
+    expect(component.brands).toEqual([]);
+    expect(component.models).toEqual([]);
+
     component.vehiclePriceHistory$.subscribe((data) => {
       expect(data).toEqual([]);
     });
-    expect(component.brands).toEqual([]);
-    expect(component.models).toEqual([]);
   });
 });
