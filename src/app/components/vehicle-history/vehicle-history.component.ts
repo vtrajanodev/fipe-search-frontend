@@ -14,7 +14,11 @@ export class VehicleHistoryComponent implements OnInit {
   ngOnInit(): void {}
 
   get historyDescription(): string {
-    if (!this.vehicleHistory) {
+    if (
+      !this.vehicleHistory ||
+      !this.vehicleHistory.year ||
+      !this.vehicleHistory.price
+    ) {
       return '';
     }
 
@@ -23,8 +27,8 @@ export class VehicleHistoryComponent implements OnInit {
 
     let description = `Valor em ${year} -> ${price}`;
 
-    if (diff !== null && diffPercentage !== null && previousYear) {
-      description += `, alteração de R$ ${diff} (${diffPercentage}) em relação a ${previousYear}`;
+    if (diff && diffPercentage && previousYear) {
+      description += `, alteração de ${diff} (${diffPercentage}) em relação a ${previousYear}`;
     }
 
     return description;

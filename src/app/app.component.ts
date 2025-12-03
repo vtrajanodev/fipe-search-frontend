@@ -15,6 +15,7 @@ import { VehicleTypeEnum } from './types/vehicle-type.enum';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
+  title = 'fipe-search';
   public brands: VehicleResponse[] = [];
   public models: VehicleResponse[] = [];
   public vehiclePriceHistory$: Observable<VehiclePriceHistory[]> = of([]);

@@ -15,8 +15,8 @@ export interface VehicleRequestForm {
 export interface VehiclePriceHistory {
   year: string;
   price: string;
-  diff?: number;
-  diffPercentage?: number;
-  previousYear?: string;
-  previousPrice?: string;
+  diff: string | null;
+  diffPercentage: string | null;
+  previousYear: string | null;
+  previousPrice: string | null;
 }
