@@ -1,27 +1,62 @@
-# FipeSearch
+# FIPE Search Frontend
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.2.13.
+![Angular](https://img.shields.io/badge/Angular-14-red)
+![TypeScript](https://img.shields.io/badge/TypeScript-4.9-blue)
+![License](https://img.shields.io/badge/License-MIT-blue)
 
-## Development server
+> Projeto frontend Angular 14 para consulta de preços de veículos usando a tabela FIPE.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+---
 
-## Code scaffolding
+## 🔥 Link do Deploy
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+A aplicação frontend está disponível publicamente em:
 
-## Build
+[https://fipe-search-frontend.vercel.app/](https://fipe-search-frontend.vercel.app/)
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+---
 
-## Running unit tests
+## 🚀 Tecnologias utilizadas
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+- **Frontend**: Angular 14, TypeScript
+- **UI Components**: PrimeNG
+- **Forms**: Reactive Forms
+- **HTTP Requests**: HttpClientModule
+- **Deploy**: Vercel
 
-## Running end-to-end tests
+---
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+## 📦 Funcionalidades
 
-## Further help
+- Seleção de tipo de veículo (`car`, `motorcycle`, `truck`)
+- Dropdowns dinâmicos de marcas e modelos com loading spinner
+- Consulta de histórico de preços de veículos
+- Layout responsivo e clean usando PrimeNG
+- Validação de formulários usando Reactive Forms
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+---
+
+## 🛠 Como rodar o projeto localmente
+
+1. Clone o repositório:
+
+```bash
+git clone git@github.com:vtrajanodev/fipe-search-frontend.git
+cd fipe-search-frontend
+```
+
+```bash
+npm install
+```
+
+```bash
+ng serve
+```
+
+Acesse em http://localhost:4200 
+
+💡 Observações
+
+Certifique-se de que a API backend esteja rodando para que os dropdowns e consultas funcionem corretamente.
+
+O deploy atual usa Vercel: https://fipe-search-frontend.vercel.app/
